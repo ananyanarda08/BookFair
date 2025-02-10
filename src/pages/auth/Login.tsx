@@ -45,12 +45,14 @@ const LoginPage = () => {
                 label="Email"
                 name="email"
                 type="email"
+                placeholder="Enter Your Email"
                 className="bg-transparent border-2 border-[#0e0303] text-[#333333] placeholder-[#B8B8B8] p-3 rounded-md focus:ring-2 focus:ring-[#5C6B5C] w-full"
               />
               <CustomInputField
                 label="Password"
                 name="password"
                 type="password"
+                placeholder="Enter Your Password"
                 className="bg-transparent border-2 border-[#0e0303] text-[#333333] placeholder-[#B8B8B8] p-3 rounded-md focus:ring-2 focus:ring-[#5C6B5C] w-full"
               />
 

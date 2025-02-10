@@ -26,7 +26,7 @@ const RegisterPage = () => {
         ></div>
 
         <div className="w-full lg:w-1/2 p-5 lg:p-8 border-t lg:border-l border-gray-900 flex flex-col justify-center ">
-          <h2 className="text-3xl lg:text-4xl font-extrabold text-center mb-2 text-[#3A7D44]">
+          <h2 className="text-3xl lg:text-4xl font-extrabold text-center  text-[#3A7D44]">  
             BookFair
           </h2>
 
@@ -70,11 +70,12 @@ const RegisterPage = () => {
             }}
           >
             {({ values }) => (
-              <Form className="space-y-4">
+              <Form className="space-y-2  ">
                 <CustomInputField
                   label="Name"
                   name="name"
                   type="text"
+                  placeholder="Enter Your Name"
                   className="bg-transparent border-2 border-[#0e0303] text-[#333333] placeholder-[#B8B8B8] rounded-md focus:ring-2 focus:ring-[#5C6B5C] w-full"
                 />
 
@@ -82,6 +83,7 @@ const RegisterPage = () => {
                   label="Email"
                   name="email"
                   type="email"
+                   placeholder="Enter Your Email"
                   className="bg-transparent border-2 border-[#0e0303] text-[#333333] placeholder-[#B8B8B8] rounded-md focus:ring-2 focus:ring-[#5C6B5C] w-full"
                 />
 
@@ -89,6 +91,7 @@ const RegisterPage = () => {
                   label="Password"
                   name="password"
                   type="password"
+                   placeholder="Enter Your Password"
                   className="bg-transparent border-2 border-[#0e0303] text-[#333333] placeholder-[#B8B8B8] p-2 rounded-md focus:ring-2 focus:ring-[#5C6B5C] w-full"
                 />
                 <div>
@@ -112,6 +115,7 @@ const RegisterPage = () => {
                       label="Shop Name"
                       name="shopName"
                       type="text"
+                      placeholder="Enter Your Shop Name"
                       className="bg-transparent border-2 border-[#0e0303] text-[#333333] placeholder-[#B8B8B8] p-2 rounded-md focus:ring-2 focus:ring-[#5C6B5C] w-full"
                     />
 
@@ -119,6 +123,7 @@ const RegisterPage = () => {
                       label="Address"
                       name="address"
                       type="text"
+                      placeholder="Enter your Address"
                       className="bg-transparent border-2 border-[#0e0303] text-[#333333] placeholder-[#B8B8B8] p-2 rounded-md focus:ring-2 focus:ring-[#5C6B5C] w-full"
                     />
                   </>
@@ -133,7 +138,7 @@ const RegisterPage = () => {
                   </button>
                 </div>
 
-                <div className="text-center mt-2">
+                <div className="text-center mt-1">
                   Already have an account?
                   <NavLink to="/" className="text-[#3A7D44] font-semibold hover:underline ml-1">
                     Login
