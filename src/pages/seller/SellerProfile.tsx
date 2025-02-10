@@ -16,42 +16,42 @@ const SellerProfile: React.FC = () => {
         <CardContent>
       
 
-          <div className="space-y-6">
+          <div className="space-y-4">
             <div className="flex items-center">
-              <Typography variant="body1" className="font-semibold w-1/3 text-black">
+              <Typography variant="h6" className="font-bold  w-1/3 text-black ">
                 Name:
               </Typography>
-              <Typography variant="body1" className="w-2/3 text-black">
+              <Typography variant="h6" className="w-2/3 text-black">
                 {user.name}
               </Typography>
             </div>
             <Divider />
 
             <div className="flex items-center">
-              <Typography variant="body1" className="font-semibold w-1/3 text-black">
+              <Typography variant="h6" className="font-semibold w-1/3 text-black">
                 Email:
               </Typography>
-              <Typography variant="body1" className="w-2/3 text-black">
+              <Typography variant="h6" className="w-2/3 text-black">
                 {user.email}
               </Typography>
             </div>
             <Divider />
 
             <div className="flex items-center">
-              <Typography variant="body1" className="font-semibold w-1/3 text-black">
+              <Typography variant="h6" className="font-semibold w-1/3 text-black">
                 Shop Name:
               </Typography>
-              <Typography variant="body1" className="w-2/3 text-black">
+              <Typography variant="h6" className="w-2/3 text-black">
                 {user.shopName}
               </Typography>
             </div>
             <Divider />
 
             <div className="flex items-center">
-              <Typography variant="body1" className="font-semibold w-1/3 text-black">
+              <Typography variant="h6" className="font-semibold w-1/3 text-black">
                 Address:
               </Typography>
-              <Typography variant="body1" className="w-2/3 text-black">
+              <Typography variant="h6" className="w-2/3 text-black">
                 {user.address}
               </Typography>
             </div>

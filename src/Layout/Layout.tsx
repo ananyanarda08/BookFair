@@ -1,6 +1,5 @@
 import React from "react";
 import Header from "../components/Header";
-import Footer from "../components/Footer";
 
 
 type LayoutProps = {
@@ -9,7 +8,7 @@ type LayoutProps = {
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
-    <div className=" min-h-screen bg-gray-100">
+    <div className="  bg-gray-100">
         <Header />
         {children}
       </div>

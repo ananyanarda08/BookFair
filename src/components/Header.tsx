@@ -27,11 +27,11 @@ const Header: React.FC = () => {
 
     console.log(cart.length, 'pk')
   return (
-    <header className="fixed top-0 left-0 w-full flex justify-between items-center p-6 z-10 shadow-md bg-gradient-to-r from-[#9DC08B] to-[#3A7D44]">
+    <header className="fixed top-0 left-0 w-full flex justify-between items-center p-6 z-10 shadow-md bg-[#3A7D44]">
       {/* Logo */}
       <Link to="/" className="flex items-center space-x-2">
-        <MenuBookIcon sx={{ fontSize: 36, color: "black" }} />
-        <span className="text-4xl font-bold bg-gradient-to-r from-[#2f3d28]  to-[#0c4614] text-transparent bg-clip-text">
+        <MenuBookIcon sx={{ fontSize: 36, color: "#F8F5E9" }} />
+        <span className="text-4xl font-bold bg-[#F8F5E9] text-transparent bg-clip-text">
           BookFair
         </span>
       </Link>

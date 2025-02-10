@@ -68,7 +68,7 @@ const SellerDashboard: React.FC = () => {
 
   return (
     <Layout>
-      <div className="h-screen p-6 bg-[#F8F5E9] flex flex-col gap-4 mt-20">
+      <div className="pt-6 p-8 bg-white flex flex-col gap-4 mt-20">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 ">
           <BooksSection
             books={books}
@@ -82,7 +82,7 @@ const SellerDashboard: React.FC = () => {
           />
 
           <div className="flex flex-col gap-6">
-            <div className="bg-[#9DC08B] p-6 rounded-lg shadow-lg">
+            <div className="bg-[#F8F5E9] p-6 rounded-lg shadow-lg">
               <h2 className="text-3xl font-semibold mb-4 text-[#1c4e23]">
                 Your Profile - {user.shopName}
               </h2>

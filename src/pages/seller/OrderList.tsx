@@ -46,7 +46,7 @@ const OrderSection: React.FC<OrderSectionProps> = ({ orders }) => {
   };
 
   return (
-    <div className="bg-[#9DC08B] p-6 rounded-lg shadow-lg flex flex-col max-h-[335px]">
+    <div className="bg-[#F8F5E9] p-6 rounded-lg shadow-lg flex flex-col max-h-[312px]">
       <h3 className="text-4xl font-semibold mb-4 text-[#1c4e23]">Orders</h3>
       <div
         className={`flex-grow ${
@@ -70,11 +70,11 @@ const OrderSection: React.FC<OrderSectionProps> = ({ orders }) => {
                 <CardContent>
                   <Typography
                     variant="h5"
-                    className="font-bold mb-2 text-[#1c4e23]"
+                    className="font-bold mb-2 text-[#1c4e23] "
                   >
                     Order: {order.name}
                   </Typography>
-                  <Typography variant="body1" className="mb-1">
+                  <Typography variant="body1" className="mb-1 py-2">
                     <strong>Address:</strong> {order.address}
                   </Typography>
                   <Typography variant="body1" className="mb-1">
@@ -83,7 +83,7 @@ const OrderSection: React.FC<OrderSectionProps> = ({ orders }) => {
                 </CardContent>
                 <CardActions>
                   <Button
-                    size="small"
+                    size="medium"
                     color="primary"
                     onClick={() => handleViewOrder(order)}
                   >

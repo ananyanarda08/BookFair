@@ -88,7 +88,7 @@ const BooksSection: React.FC<BooksSectionProps> = ({
   };
 
   return (
-    <div className="p-6 bg-[#9DC08B] rounded-lg shadow-lg md:col-span-2 flex flex-col max-h-[790px] overflow-y-auto">
+    <div className="p-6 bg-[#F8F5E9] rounded-lg shadow-lg md:col-span-2 flex flex-col max-h-[790px] overflow-y-auto">
       <h3 className="text-4xl font-semibold mb-4 text-[#1c4e23]">Book Management</h3>
 
       <div className="mb-4 flex flex-col sm:flex-row justify-between gap-10">
@@ -129,7 +129,7 @@ const BooksSection: React.FC<BooksSectionProps> = ({
             min={0}
             max={1000} 
             sx={{
-              width: "70%", 
+              width: "60%", 
               height: 6,
               "& .MuiSlider-thumb": {
                 width: 16,
@@ -156,7 +156,7 @@ const BooksSection: React.FC<BooksSectionProps> = ({
         </div>
       ) : (
         <TableContainer component={Paper} className="mt-4">
-          <Table sx={{ minWidth: 650, backgroundColor: "#f7f5ef" }} aria-label="simple table">
+          <Table sx={{ minWidth: 650, }} aria-label="simple table">
             <TableHead>
               <TableRow>
                 <TableCell sx={{ fontWeight: 900, fontSize: 20 }}>Image</TableCell>
@@ -164,7 +164,7 @@ const BooksSection: React.FC<BooksSectionProps> = ({
                 <TableCell sx={{ fontWeight: 900, fontSize: 20 }}>Author</TableCell>
                 <TableCell sx={{ fontWeight: 900, fontSize: 20 }}>Stock</TableCell>
                 <TableCell sx={{ fontWeight: 900, fontSize: 20 }}>Price</TableCell>
-                <TableCell sx={{ fontWeight: 900, fontSize: 20 }}>Actions</TableCell>
+                <TableCell sx={{ fontWeight: 900, fontSize: 20 ,  textAlign: "center"}}>Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -181,12 +181,12 @@ const BooksSection: React.FC<BooksSectionProps> = ({
                       }}
                     />
                   </TableCell>
-                  <TableCell>{book.name}</TableCell>
-                  <TableCell>{book.author}</TableCell>
-                  <TableCell>{book.stock}</TableCell>
-                  <TableCell>₹{book.price}</TableCell>
+                  <TableCell sx={{ fontWeight: 800, fontSize: 17 }}>{book.name}</TableCell>
+                  <TableCell sx={{ fontWeight: 800, fontSize: 17 }}>{book.author}</TableCell>
+                  <TableCell sx={{ fontWeight: 800, fontSize: 17 }}>{book.stock}</TableCell>
+                  <TableCell sx={{ fontWeight: 800, fontSize: 17 }}>₹{book.price}</TableCell>
                   <TableCell>
-                    <div className="flex justify-between items-center">
+                    <div className="flex justify-between items-center]]">
                       <Visibility
                         sx={{
                           fontSize: 24,
