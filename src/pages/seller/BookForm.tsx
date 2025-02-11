@@ -30,7 +30,9 @@ const BookForm: React.FC<BookFormProps> = ({
     author: bookData?.author || "",
     price: bookData?.price || "",
     stock: bookData?.stock || "",
+    image: bookData?.image || "",
   };
+  
 
   const validationSchema = Yup.object({
     name: Yup.string().required("Book name is required"),
@@ -39,7 +41,9 @@ const BookForm: React.FC<BookFormProps> = ({
     stock: Yup.number()
       .required("Stock is required")
       .integer("Must be an integer"),
+    image: Yup.string().required("Image is required"),
   });
+  
   
   const handleSubmit = async (values: any, { resetForm }: any) => {
     const updatedBook = {
@@ -70,19 +74,20 @@ const BookForm: React.FC<BookFormProps> = ({
     }
   };
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>, setFieldValue: any) => {
     const file = e.target.files ? e.target.files[0] : null;
     if (file) {
       const reader = new FileReader();
       reader.onload = (event) => {
         if (event.target) {
           setImage(event.target.result as string);
+          setFieldValue("image", event.target.result); 
         }
       };
       reader.readAsDataURL(file);
     }
   };
-
+  
   return (
     <Modal open={true} onClose={closeModal}>
       <Box
@@ -112,73 +117,57 @@ const BookForm: React.FC<BookFormProps> = ({
         </div>
 
         <Formik
-          initialValues={initialValues}
-          validationSchema={validationSchema}
-          onSubmit={handleSubmit}
-          enableReinitialize
+  initialValues={initialValues}
+  validationSchema={validationSchema}
+  onSubmit={handleSubmit}
+  enableReinitialize
+>
+  {({ setFieldValue, errors, touched }) => (
+    <Form className="space-y-4">
+      <CustomInputField label="Book Name" name="name" type="text" placeholder="Enter book name" />
+      <CustomInputField label="Author" name="author" type="text" placeholder="Enter author name" />
+      <CustomInputField label="Price" name="price" type="number" placeholder="Enter price" />
+      <CustomInputField label="Stock" name="stock" type="number" placeholder="Enter stock count" />
+
+      <div className="mt-3">
+        <Typography className="font-semibold text-gray-700 mb-1">
+          Upload Image <span className="text-red-500">*</span>
+        </Typography>
+        <input
+          type="file"
+          onChange={(e) => handleImageUpload(e, setFieldValue)}
+          className="w-full p-2 border rounded-lg"
+        />
+        {touched.image && errors.image && (
+          <div className="text-red-500 text-sm">{errors.image}</div>
+        )}
+        {image && (
+          <div className="flex justify-center mt-3">
+            <img
+              src={image}
+              alt="Preview"
+              className="w-[120px] h-[160px] object-contain border rounded-lg shadow-md"
+            />
+          </div>
+        )}
+      </div>
+
+      <div className="flex justify-end mt-4">
+        <Button
+          type="submit"
+          variant="contained"
+          sx={{
+            bgcolor: "#133618",
+            "&:hover": { bgcolor: "#0F2D14" },
+          }}
         >
-          {() => (
-            <Form className="space-y-4">
-              <CustomInputField
-                label="Book Name"
-                name="name"
-                type="text"
-                placeholder="Enter book name"
-              />
-              <CustomInputField
-                label="Author"
-                name="author"
-                type="text"
-                placeholder="Enter author name"
-              />
-              <CustomInputField
-                label="Price"
-                name="price"
-                type="number"
-                placeholder="Enter price"
-              />
-              <CustomInputField
-                label="Stock"
-                name="stock"
-                type="number"
-                placeholder="Enter stock count"
-              />
+          {bookData ? "Update Book" : "Add Book"}
+        </Button>
+      </div>
+    </Form>
+  )}
+</Formik>
 
-              <div className="mt-3">
-                <Typography className="font-semibold text-gray-700 mb-1">
-                  Upload Image
-                </Typography>
-                <input
-                  type="file"
-                  onChange={handleImageUpload}
-                  className="w-full p-2 border rounded-lg"
-                />
-                {image && (
-                  <div className="flex justify-center mt-3">
-                    <img
-                      src={image}
-                      alt="Preview"
-                      className="w-[120px] h-[160px] object-contain border rounded-lg shadow-md"
-                    />
-                  </div>
-                )}
-              </div>
-
-              <div className="flex justify-end mt-4">
-                <Button
-                  type="submit"
-                  variant="contained"
-                  sx={{
-                    bgcolor: "#133618",
-                    "&:hover": { bgcolor: "#0F2D14" },
-                  }}
-                >
-                  {bookData ? "Update Book" : "Add Book"}
-                </Button>
-              </div>
-            </Form>
-          )}
-        </Formik>
       </Box>
     </Modal>
   );
