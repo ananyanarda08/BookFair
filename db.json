@@ -124,6 +124,36 @@
           "quantity": 1
         }
       ]
+    },
+    {
+      "id": "f4a6",
+      "name": "Reebu",
+      "address": "#23 gsr",
+      "phone": "0987654321",
+      "sellerId": "5ad2",
+      "items": [
+        {
+          "id": "5ad2",
+          "name": "Friends",
+          "price": 190,
+          "quantity": 3
+        }
+      ]
+    },
+    {
+      "id": "44f2",
+      "name": "Anna sharma",
+      "address": "#23 nsr",
+      "phone": "1198765443",
+      "sellerId": "c9b4",
+      "items": [
+        {
+          "id": "c9b4",
+          "name": "Death on The Nile",
+          "price": 800,
+          "quantity": 1
+        }
+      ]
     }
   ],
   "cart": [],

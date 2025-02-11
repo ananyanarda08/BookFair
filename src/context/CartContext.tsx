@@ -20,6 +20,7 @@ interface CartContextType {
   updateQuantity: (id: number, quantity: number) => void;
   placeOrder: () => void;
   clearCart: () => void;
+  getTotalPrice: () => number; 
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -97,9 +98,11 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     localStorage.removeItem("cart");
     await axiosInstance.delete("/cart");
   };
-
+  const getTotalPrice = () => {
+    return cart.reduce((total, item) => total + item.price * item.quantity, 0);
+  };
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart, updateQuantity, placeOrder, clearCart }}>
+    <CartContext.Provider value={{ cart, addToCart, removeFromCart, updateQuantity, placeOrder, clearCart, getTotalPrice }}>
       {children}
     </CartContext.Provider>
   );

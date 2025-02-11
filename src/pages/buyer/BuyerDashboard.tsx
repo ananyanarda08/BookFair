@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../../Layout/Layout";
 import { useCart } from "../../context/CartContext";
-import { Visibility, ErrorOutline, Book } from "@mui/icons-material";
+import { Visibility, ErrorOutline } from "@mui/icons-material";
 import {
   TextField,
   Slider,
   Typography,
 } from "@mui/material";
 import { axiosInstance } from "../../api/AxiosInstance";
-import BookModal from "../../components/ViewBookModal"; 
+import BookModal from "../../components/ViewBookModal";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface Book {
   sellerId: string;
@@ -26,7 +28,7 @@ const BuyerDashboard: React.FC = () => {
   const [filteredBooks, setFilteredBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const { addToCart, clearCart } = useCart();
+  const { addToCart, clearCart, cart } = useCart();
   const [selectedBook, setSelectedBook] = useState<Book | null>(null);
   const [viewModalOpen, setViewModalOpen] = useState<boolean>(false);
   const [priceRange, setPriceRange] = useState<number[]>([0, 1000]);
@@ -77,14 +79,27 @@ const BuyerDashboard: React.FC = () => {
   };
 
   const handleAddToCart = (book: Book) => {
-    const bookWithQuantity = { ...book, quantity: book.quantity || 1 };
-    addToCart(bookWithQuantity);
+    const existingBook = cart.find((item) => item.id === book.id);
+
+    if (existingBook) {
+      toast.info("This book is already in your cart!", {
+        position: "top-right",
+        autoClose: 2000,
+      });
+    } else {
+      const bookWithQuantity = { ...book, quantity: book.quantity || 1 };
+      addToCart(bookWithQuantity);
+      toast.success("Book added to your cart!", {
+        position: "top-right",
+        autoClose: 2000,
+      });
+    }
   };
 
   return (
     <Layout>
       <div className="bg-[#f1f1ee] mt">
-        <div className="p-4 md:p-10   min-h-screen text-[#1c4e23]">
+        <div className="p-4 md:p-10 min-h-screen text-[#1c4e23]">
           <h2 className="text-2xl md:text-5xl font-bold mt-20 mb-6 text-[#3A7D44]">
             Available Books
           </h2>
@@ -151,7 +166,6 @@ const BuyerDashboard: React.FC = () => {
                     className="w-full h-64 sm:h-72 md:h-80 object-contain mb-4 rounded-lg"
                   />
                   <h3 className="text-xl sm:text-2xl md:text-3xl text-[#133518] font-bold">
-                    {" "}
                     {book.name}
                   </h3>
                   <p className="text-[#133518] font-semibold text-sm sm:text-base md:text-lg">
@@ -189,6 +203,7 @@ const BuyerDashboard: React.FC = () => {
             onClose={handleCloseModal}
             book={selectedBook}
           />
+          <ToastContainer />
         </div>
       </div>
     </Layout>

@@ -1,22 +1,21 @@
 import React from "react";
 import { Modal, Box, Typography, Button } from "@mui/material";
+import { Order } from "../pages/seller/OrderList";
 
-interface ViewModalProps {
+interface OrderModalProps {
   open: boolean;
   onClose: () => void;
-  book?: Book | null;
-  order?: any;  
+  order: Order | null;
 }
- type Book = {
-    id: number;
-    name: string;
-    author: string;
-    price: number;
-    stock:number,
-    image: string;
-  };
-const ViewModal: React.FC<ViewModalProps> = ({ open, onClose, book, order }) => {
-  if (!book && !order) return null; 
+
+const OrderModal: React.FC<OrderModalProps> = ({ open, onClose, order }) => {
+  const totalPrice = order?.items.reduce((acc, item) => {
+    const itemPrice = typeof item.price === "number" ? item.price : 0;
+
+    const itemQuantity = typeof item.quantity === "number" ? item.quantity : 0;
+
+    return acc + itemPrice * itemQuantity;
+  }, 0);
 
   return (
     <Modal open={open} onClose={onClose}>
@@ -26,41 +25,77 @@ const ViewModal: React.FC<ViewModalProps> = ({ open, onClose, book, order }) => 
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
-          width: 400,
+          width: 450,
           bgcolor: "background.paper",
-          borderRadius: 2,
+          borderRadius: 4,
           boxShadow: 24,
           p: 4,
         }}
+        className="shadow-lg bg-white border border-gray-200"
       >
-        {book && (
-          <>
-            <Typography variant="h6" className="font-bold mb-4">View Book Details</Typography>
-            <Typography variant="h6" className="font-semibold">Name: {book.name}</Typography>
-            <Typography color="text.secondary" className="text-gray-600">Author: {book.author}</Typography>
-            <Typography color="text.secondary" className="text-gray-600">Stock: {book.stock}</Typography>
-            <Typography variant="h6" className="text-green-600 font-bold">Price: ₹{book.price}</Typography>
-          </>
-        )}
+        <div className="flex justify-between items-center border-b pb-2 mb-4">
+          <Typography variant="h5" className="font-bold text-[#3A7D44]">
+            Order Details
+          </Typography>
+          <button
+            onClick={onClose}
+            className="text-gray-500 hover:text-red-500 transition"
+          >
+            ✖
+          </button>
+        </div>
 
-        {order && (
-          <>
-            <Typography variant="h6" className="font-bold mb-4">View Order Details</Typography>
-            <Typography variant="h6" className="font-semibold">Order Name: {order.name}</Typography>
-            <Typography color="text.secondary" className="text-gray-600">Address: {order.address}</Typography>
-            <Typography color="text.secondary" className="text-gray-600">Phone: {order.phone}</Typography>
-            <Typography color="text.secondary" className="text-gray-600">Status: {order.status}</Typography>
-            <Typography variant="h6" className="font-semibold mt-2">Items Ordered:</Typography>
-            <Typography>{order.items?.map((item: { name: string }) => item.name).join(", ")}</Typography>
-          </>
-        )}
+        <div className="space-y-2">
+          <Typography variant="h6" className="font-semibold">
+            Name:{" "}
+            <span className="font-normal text-gray-800">{order?.name}</span>
+          </Typography>
+          <Typography className="text-gray-800">
+            Address:{" "}
+            <span className="font-medium">{order?.address}</span>
+          </Typography>
+          <Typography className="text-gray-800">
+            Phone:{" "}
+            <span className="font-medium">{order?.phone}</span>
+          </Typography>
+          {order?.items.map((item, index) => (
+            <div key={index} className="space-y-2">
+              <Typography className="text-gray-800">
+                Book Name:<span className="font-medium">{item.name}</span>
+              </Typography>
+              <Typography className="text-gray-800">
+                Stock: <span className="font-medium">{item.quantity}</span>
+              </Typography>
+            </div>
+          ))}
+          {totalPrice !== undefined && (
+            <div className="flex justify-between mt-4 font-semibold">
+              <Typography>Total Price:</Typography>
+              <Typography>₹{totalPrice}</Typography>
+            </div>
+          )}
+        </div>
 
-        <div className="flex justify-between mt-4">
-          <Button variant="outlined" onClick={onClose}>Close</Button>
+        <div className="flex justify-end mt-6">
+          <Button
+            variant="outlined"
+            onClick={onClose}
+            sx={{
+              borderColor: "#3A7D44",
+              color: "#3A7D44",
+              "&:hover": {
+                borderColor: "#2A5D34",
+                backgroundColor: "#3A7D44",
+                color: "white",
+              },
+            }}
+          >
+            Close
+          </Button>
         </div>
       </Box>
     </Modal>
   );
 };
 
-export default ViewModal;
+export default OrderModal;

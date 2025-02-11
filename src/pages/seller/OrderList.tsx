@@ -1,25 +1,25 @@
-import React, { ReactNode, useState } from "react";
+import React, { useState } from "react";
 import {
   Card,
   CardContent,
   CardActions,
   Typography,
   Button,
-  Modal,
-  Box,
 } from "@mui/material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import OrderModal from "../../components/ViewOrderModal"; 
 
 interface Book {
-  quantity: ReactNode;
+  price: React.ReactNode;
+  quantity: React.ReactNode;
   id: string;
   name: string;
   stock: number;
 }
 
-interface Order {
-  quantity: ReactNode;
-  bookName: ReactNode;
+export interface Order {
+  quantity: React.ReactNode;
+  bookName: React.ReactNode;
   id: string;
   name: string;
   address: string;
@@ -96,81 +96,11 @@ const OrderSection: React.FC<OrderSectionProps> = ({ orders }) => {
         )}
       </div>
 
-      {selectedOrder && (
-        <Modal open={openModal} onClose={handleCloseModal}>
-          <Box
-            sx={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              width: 450,
-              bgcolor: "background.paper",
-              borderRadius: 4,
-              boxShadow: 24,
-              p: 4,
-            }}
-            className="shadow-lg bg-white border border-gray-200"
-          >
-            <div className="flex justify-between items-center border-b pb-2 mb-4">
-              <Typography variant="h5" className="font-bold text-[#3A7D44]">
-                Order Details
-              </Typography>
-              <button
-                onClick={handleCloseModal}
-                className="text-gray-500 hover:text-red-500 transition"
-              >
-                ✖
-              </button>
-            </div>
-
-            <div className="space-y-2">
-              <Typography variant="h6" className="font-semibold">
-                Name:{" "}
-                <span className="font-normal text-gray-700">
-                  {selectedOrder.name}
-                </span>
-              </Typography>
-              <Typography className="text-gray-600">
-                Address:{" "}
-                <span className="font-medium">{selectedOrder.address}</span>
-              </Typography>
-              <Typography className="text-gray-600">
-                Phone:{" "}
-                <span className="font-medium">{selectedOrder.phone}</span>
-              </Typography>
-              {selectedOrder.items.map((item, index) => (
-                <div key={index}>
-                  <Typography className="text-gray-600">
-                    Book Name: <span className="font-medium">{item.name}</span>
-                  </Typography>
-                  <Typography className="text-gray-600">
-                    Stock: <span className="font-medium">{item.quantity}</span>
-                  </Typography>
-                </div>
-              ))}
-            </div>
-
-            <div className="flex justify-end mt-6">
-              <Button
-                variant="outlined"
-                onClick={handleCloseModal}
-                sx={{
-                  borderColor: "#3A7D44",
-                  color: "#3A7D44",
-                  "&:hover": {
-                    borderColor: "#2A5D34",
-                    backgroundColor: "#3A7D44",
-                    color: "white",
-                  },
-                }}
-              >
-                Close
-              </Button>
-            </div>
-          </Box>
-        </Modal>
-      )}
+      <OrderModal
+        open={openModal}
+        onClose={handleCloseModal}
+        order={selectedOrder}
+      />
     </div>
   );
 };

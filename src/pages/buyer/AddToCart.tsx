@@ -7,11 +7,11 @@ import Layout from "../../Layout/Layout";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { axiosInstance } from "../../api/AxiosInstance";
-import { Formik, Field, Form } from "formik";
+import { Formik, Form } from "formik";
 import * as Yup from "yup";
 
 const CartPage: React.FC = () => {
-  const { cart, removeFromCart, updateQuantity, placeOrder } = useCart();
+  const { cart, removeFromCart, updateQuantity } = useCart();
   const navigate = useNavigate();
   const [openOrderModal, setOpenOrderModal] = useState(false);
   const [orderInfo, setOrderInfo] = useState({
@@ -39,7 +39,6 @@ const CartPage: React.FC = () => {
     setOpenOrderModal(false);
   };
 
-  // Yup validation schema for the form
   const validationSchema = Yup.object({
     name: Yup.string().required("Name is required"),
     address: Yup.string().required("Address is required"),
@@ -48,37 +47,38 @@ const CartPage: React.FC = () => {
       .required("Phone number is required"),
   });
 
-const handleSubmitOrder = async (values: any) => {
-  const orderWithBuyerDetails = {
-    ...values,
-    sellerId: orderInfo.id,
-    items: [
-      {
-        id: orderInfo.id,
-        name: orderInfo.bookName,
-        price: orderInfo.price,
-        quantity: orderInfo.quantity,
-      },
-    ],
+  const handleSubmitOrder = async (values: any) => {
+    const orderWithBuyerDetails = {
+      ...values,
+      sellerId: orderInfo.id,
+      items: [
+        {
+          id: orderInfo.id,
+          name: orderInfo.bookName,
+          price: orderInfo.price,
+          quantity: orderInfo.quantity,
+        },
+      ],
+    };
+
+    try {
+      const response = await axiosInstance.post("/orders", orderWithBuyerDetails);
+
+      if (response.status === 201) {
+        removeFromCart(orderInfo.id);
+        setOpenOrderModal(false);
+        navigate("/buyer-dashboard");
+        toast.success("Order placed successfully!");
+      } else {
+        throw new Error("Failed to place order");
+      }
+    } catch (error) {
+      console.error("Error placing order:", error);
+      toast.error("Failed to place order.");
+    }
   };
 
-  try {
-    const response = await axiosInstance.post("/orders", orderWithBuyerDetails);
-
-    if (response.status === 201) {
-      removeFromCart(orderInfo.id);
-      setOpenOrderModal(false);
-      navigate("/buyer-dashboard");
-      toast.success("Order placed successfully!");
-    } else {
-      throw new Error("Failed to place order");
-    }
-  } catch (error) {
-    console.error("Error placing order:", error);
-    toast.error("Failed to place order.");
-  }
-};
-
+  const totalPrice = cart.reduce((total, book) => total + book.price * book.quantity, 0);
 
   return (
     <Layout>
@@ -116,7 +116,7 @@ const handleSubmitOrder = async (values: any) => {
                   <p className="text-[#1c4e23] text-sm">Seller: Book Store</p>
                   <p className="mt-1 text-xl font-bold text-[#3A7D44]">
                     ₹{book.price}
-                  </p>
+                  </p>   
                   <div className="flex items-center mt-3 gap-1" >
                     <IconButton
                       onClick={() => updateQuantity(book.id, book.quantity - 1)}
@@ -147,6 +147,11 @@ const handleSubmitOrder = async (values: any) => {
                 </div>
               </div>
             ))}
+
+            <div className="mt-6 flex justify-between items-center">
+              <h2 className="text-xl font-bold text-[#3A7D44]">Total Price</h2>
+              <p className="text-xl font-bold text-[#3A7D44]">₹{totalPrice}</p>
+            </div>
           </div>
         )}
 
