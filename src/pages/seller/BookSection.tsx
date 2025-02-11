@@ -87,7 +87,7 @@ const BooksSection: React.FC<BooksSectionProps> = ({
   };
 
   return (
-    <div className="p-6 bg-[#F8F5E9] rounded-lg shadow-lg md:col-span-2 flex flex-col max-h-[750px] overflow-y-auto">
+    <div className="p-6 bg-[#F8F5E9] rounded-lg shadow-lg md:col-span-2 flex flex-col max-h-[750px] min-h-[750px] overflow-y-auto">
       <h3 className="text-4xl font-semibold mb-4 text-[#1c4e23]">Book Management</h3>
 
       <div className="mb-4 flex flex-col sm:flex-row justify-between gap-10">
@@ -117,33 +117,6 @@ const BooksSection: React.FC<BooksSectionProps> = ({
           }}
         />
 
-        <div className="w-full sm:w-1/2 flex flex-col">
-          <Typography variant="body2" color="text.secondary">
-            Price Range: ₹{priceRange[0]} - ₹{priceRange[1]}
-          </Typography>
-          <Slider
-            value={priceRange}
-            onChange={(e, newValue) => setPriceRange(newValue as number[])}
-            valueLabelDisplay="auto"
-            min={0}
-            max={1000} 
-            sx={{
-              width: "60%", 
-              height: 6,
-              "& .MuiSlider-thumb": {
-                width: 16,
-                height: 16,
-                backgroundColor: "#1c4e23",
-              },
-              "& .MuiSlider-rail": {
-                backgroundColor: "#e0e0e0",
-              },
-              "& .MuiSlider-track": {
-                backgroundColor: "#1c4e23",
-              },
-            }}
-          />
-        </div>
       </div>
 
       {filteredBooks.length === 0 ? (

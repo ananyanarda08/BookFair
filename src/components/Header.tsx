@@ -13,9 +13,13 @@ const Header: React.FC = () => {
   const user = JSON.parse(localStorage.getItem("user") || "{}");
   const isLoggedIn = user && user.name;
   const isBuyer = user.type === "buyer";
+  const isSeller = user.type === "seller";
+  const profilePic = localStorage.getItem("profilePic");  
+  
   const handleLogout = () => {
     localStorage.removeItem("user");
     localStorage.removeItem("shopName");
+    localStorage.removeItem("profilePic"); 
     navigate("/");
   };
 
@@ -43,12 +47,13 @@ const Header: React.FC = () => {
             >
               <Avatar
                 sx={{ bgcolor: "#F8F5E9", color: "black", marginRight: 1 }}
-              ></Avatar>
+                src={profilePic || ""}  
+              />
             </Link>
 
             <Link
               to="/cart-item"
-              className="flex items-center space-x-2 relative "
+              className="flex items-center space-x-2 relative"
             >
               <ShoppingCartIcon
                 className="text-[#F8F5E9]"
@@ -62,7 +67,17 @@ const Header: React.FC = () => {
             </Link>
           </>
         )}
-
+        {isSeller && (
+          <Link
+            to="/seller-profile"
+            className="flex items-center space-x-2 relative"
+          >
+            <Avatar
+              sx={{ bgcolor: "#F8F5E9", color: "black", marginRight: 1 }}
+              src={profilePic || ""}  
+            />
+          </Link>
+        )}
         {isLoggedIn ? (
           <button
             onClick={handleLogout}

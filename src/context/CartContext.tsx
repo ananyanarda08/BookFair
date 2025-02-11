@@ -20,39 +20,71 @@ interface CartContextType {
   updateQuantity: (id: number, quantity: number) => void;
   placeOrder: () => void;
   clearCart: () => void;
-  getTotalPrice: () => number; 
+  getTotalPrice: () => number;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [cart, setCart] = useState<Book[]>(() => {
-    const storedCart = localStorage.getItem("cart");
-    return storedCart ? JSON.parse(storedCart) : [];
-  });
+  const [cart, setCart] = useState<Book[]>([]);
 
   useEffect(() => {
-    localStorage.setItem("cart", JSON.stringify(cart));
-  }, [cart]);
+    const fetchCart = async () => {
+      try {
+        const response = await axiosInstance.get("/cart");
+        if (response.data) {
+          setCart(response.data);
+        } else {
+          setCart([]);
+        }
+      } catch (error) {
+        console.error("Error fetching cart:", error);
+      }
+    };
+
+    fetchCart();
+  }, []);
+
+  const updateCartOnServer = async (updatedCart: Book[]) => {
+    try {
+      const response = await axiosInstance.put("/cart", updatedCart);
+      if (response.status === 200) {
+        console.log("Cart updated on server:", response.data);
+      }
+    } catch (error) {
+      console.error("Error updating cart:", error);
+    }
+  };
 
   const addToCart = (item: Book) => {
     setCart((prevCart) => {
       const existingItem = prevCart.find((cartItem) => cartItem.id === item.id);
+      let updatedCart;
       if (existingItem) {
-        return prevCart.map((cartItem) =>
+        updatedCart = prevCart.map((cartItem) =>
           cartItem.id === item.id
             ? { ...cartItem, quantity: cartItem.quantity + 1 }
             : cartItem
         );
       } else {
-        return [...prevCart, { ...item, quantity: 1 }];
+        updatedCart = [...prevCart, { ...item, quantity: 1 }];
       }
+
+      updateCartOnServer(updatedCart);
+
+      return updatedCart;
     });
   };
 
   const removeFromCart = async (id: number) => {
-    setCart((prevCart) => prevCart.filter((item) => item.id !== id));
-    localStorage.setItem("cart", JSON.stringify(cart.filter((item) => item.id !== id)));
+    setCart((prevCart) => {
+      const updatedCart = prevCart.filter((item) => item.id !== id);
+
+      updateCartOnServer(updatedCart);
+
+      return updatedCart;
+    });
+
     await axiosInstance.delete(`/cart/${id}`);
   };
 
@@ -62,7 +94,8 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
         item.id === id ? { ...item, quantity } : item
       )
     );
-    localStorage.setItem("cart", JSON.stringify(cart));
+
+    await updateCartOnServer(cart);
     await axiosInstance.patch(`/cart/${id}`, { quantity });
   };
 
@@ -82,8 +115,8 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
       if (response.status === 201) {
         toast.success("Order placed successfully!");
-        setCart([]); 
-        localStorage.removeItem("cart"); 
+        setCart([]);
+        await axiosInstance.delete("/cart");  
       } else {
         toast.error("Failed to place order.");
       }
@@ -95,12 +128,13 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const clearCart = async () => {
     setCart([]);
-    localStorage.removeItem("cart");
     await axiosInstance.delete("/cart");
   };
+
   const getTotalPrice = () => {
     return cart.reduce((total, item) => total + item.price * item.quantity, 0);
   };
+
   return (
     <CartContext.Provider value={{ cart, addToCart, removeFromCart, updateQuantity, placeOrder, clearCart, getTotalPrice }}>
       {children}

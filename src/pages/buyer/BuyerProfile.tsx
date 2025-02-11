@@ -180,7 +180,7 @@ const BuyerProfile: React.FC = () => {
           </Grid>
         </Grid>
       </div>
-    </Layout>
+    </Layout>   
   );
 };
 

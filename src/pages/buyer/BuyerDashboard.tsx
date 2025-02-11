@@ -51,12 +51,6 @@ const BuyerDashboard: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (books.length === 0) {
-      clearCart();
-    }
-  }, [books, clearCart]);
-
-  useEffect(() => {
     const filtered = books.filter((book) => {
       const matchesPrice =
         book.price >= priceRange[0] && book.price <= priceRange[1];

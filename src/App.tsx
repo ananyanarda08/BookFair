@@ -10,6 +10,7 @@ import { CartProvider } from "./context/CartContext";
 import CartPage from "./pages/buyer/AddToCart";
 import ProtectedRoute from "./components/ProtectedRoute";
 import BuyerProfile from "./pages/buyer/BuyerProfile";
+import SellerProfile from "./pages/seller/SellerProfile";
 
 function AnimatedRoutes() {
   const location = useLocation();
@@ -69,6 +70,14 @@ function AnimatedRoutes() {
           element={
             <PageWrapper>
               <BuyerProfile />
+            </PageWrapper>
+          }
+        />
+           <Route
+          path="/seller-profile"
+          element={
+            <PageWrapper>
+              <SellerProfile />
             </PageWrapper>
           }
         />

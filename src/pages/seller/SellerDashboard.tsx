@@ -82,12 +82,6 @@ const SellerDashboard: React.FC = () => {
           />
 
           <div className="flex flex-col gap-6">
-            <div className="bg-[#F8F5E9] p-6 rounded-lg shadow-lg">
-              <h2 className="text-3xl font-semibold mb-4 text-[#1c4e23]">
-                Your Profile - {user.shopName}
-              </h2>
-              <SellerProfile />
-            </div>
             <OrderSection orders={orders} />
           </div>
         </div>  
