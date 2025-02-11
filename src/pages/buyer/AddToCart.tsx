@@ -11,29 +11,9 @@ import { Formik, Form } from "formik";
 import * as Yup from "yup";
 
 const CartPage: React.FC = () => {
-  const { cart, removeFromCart, updateQuantity } = useCart();
+  const { cart, removeFromCart, updateQuantity, clearCart } = useCart();
   const navigate = useNavigate();
   const [openOrderModal, setOpenOrderModal] = useState(false);
-  const [orderInfo, setOrderInfo] = useState({
-    id: 0,
-    bookName: "",
-    price: 0,
-    quantity: 0,
-    name: "",
-    address: "",
-    phone: "",
-  });
-
-  const handleOpenOrderModal = (book: any) => {
-    setOrderInfo({
-      ...orderInfo,
-      id: book.id,
-      bookName: book.name,
-      price: book.price,
-      quantity: book.quantity,
-    });
-    setOpenOrderModal(true);
-  };
 
   const handleCloseOrderModal = () => {
     setOpenOrderModal(false);
@@ -48,28 +28,26 @@ const CartPage: React.FC = () => {
   });
 
   const handleSubmitOrder = async (values: any) => {
-    const orderWithBuyerDetails = {
+    const orderData = {
       ...values,
-      sellerId: orderInfo.id,
-      items: [
-        {
-          id: orderInfo.id,
-          name: orderInfo.bookName,
-          price: orderInfo.price,
-          quantity: orderInfo.quantity,
-        },
-      ],
-      createdAt: new Date(), 
+      items: cart.map((book) => ({
+        id: book.id,
+        name: book.name,
+        price: book.price,
+        quantity: book.quantity,
+      })),
+      createdAt: new Date(),
     };
-  
+
     try {
-      const response = await axiosInstance.post("/orders", orderWithBuyerDetails);
-  
+      const response = await axiosInstance.post("/orders", orderData);
+
       if (response.status === 201) {
-        removeFromCart(orderInfo.id);
+        clearCart();
         setOpenOrderModal(false);
-        navigate("/buyer-dashboard");
-        toast.success("Order placed successfully!");
+        toast.success("Order placed successfully!", {
+          position: "bottom-right",
+        });
       } else {
         throw new Error("Failed to place order");
       }
@@ -79,18 +57,23 @@ const CartPage: React.FC = () => {
     }
   };
 
-  const totalPrice = cart.reduce((total, book) => total + book.price * book.quantity, 0);
+  const totalPrice = cart.reduce(
+    (total, book) => total + book.price * book.quantity,
+    0
+  );
 
   return (
     <Layout>
-      <div className="min-h-screen bg-[#F8F5E9] text-[#1c4e23] p-6 md:p-20 mt-10">
+      <div className="min-h-screen bg-white text-[#1c4e23] p-6 md:p-20 mt-10">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl sm:text-3xl mt-10 font-bold text-[#3A7D44]">Your Cart 🛒</h1>
+          <h1 className="text-4xl sm:text-3xl mt-10 font-bold text-[#3A7D44]">
+            Your Cart
+          </h1>
           <Button
             startIcon={<ArrowBack />}
             onClick={() => navigate("/buyer-dashboard")}
             variant="contained"
-            sx={{ backgroundColor: "#3A7D44", color: "white", marginTop:10 }}
+            sx={{ backgroundColor: "#3A7D44", color: "white", marginTop: 10 }}
           >
             Back to Books Dashboard
           </Button>
@@ -99,7 +82,7 @@ const CartPage: React.FC = () => {
         {cart.length === 0 ? (
           <p className="text-gray-500 mt-4">Your cart is empty.</p>
         ) : (
-          <div className="bg-[#9DC08B] p-6 rounded-lg shadow-lg">
+          <div className="bg-[#F8F5E9] p-6 rounded-lg shadow-lg w-[900px]">
             {cart.map((book) => (
               <div
                 key={book.id}
@@ -114,11 +97,10 @@ const CartPage: React.FC = () => {
                   <h2 className="text-lg sm:text-xl font-semibold text-[#3A7D44]">
                     {book.name}
                   </h2>
-                  <p className="text-[#1c4e23] text-sm">Seller: Book Store</p>
                   <p className="mt-1 text-xl font-bold text-[#3A7D44]">
                     ₹{book.price}
-                  </p>   
-                  <div className="flex items-center mt-3 gap-1" >
+                  </p>
+                  <div className="flex items-center mt-3 gap-1">
                     <IconButton
                       onClick={() => updateQuantity(book.id, book.quantity - 1)}
                       disabled={book.quantity === 1}
@@ -138,12 +120,6 @@ const CartPage: React.FC = () => {
                     >
                       Remove
                     </Button>
-                    <Button
-                      onClick={() => handleOpenOrderModal(book)}
-                      sx={{ backgroundColor: "#3A7D44", color: "white" }}
-                    >
-                      Place Order
-                    </Button>
                   </div>
                 </div>
               </div>
@@ -152,6 +128,15 @@ const CartPage: React.FC = () => {
             <div className="mt-6 flex justify-between items-center">
               <h2 className="text-xl font-bold text-[#3A7D44]">Total Price</h2>
               <p className="text-xl font-bold text-[#3A7D44]">₹{totalPrice}</p>
+            </div>
+
+            <div className="mt-6 text-right">
+              <Button
+                onClick={() => setOpenOrderModal(true)}
+                sx={{ backgroundColor: "#3A7D44", color: "white", width: "25%" }}
+              >
+                Place Order
+              </Button>
             </div>
           </div>
         )}
@@ -174,9 +159,9 @@ const CartPage: React.FC = () => {
             <h2 className="font-bold text-[#3A7D44]">Place Order</h2>
             <Formik
               initialValues={{
-                name: orderInfo.name,
-                address: orderInfo.address,
-                phone: orderInfo.phone,
+                name: "",
+                address: "",
+                phone: "",
               }}
               validationSchema={validationSchema}
               onSubmit={handleSubmitOrder}
@@ -234,7 +219,7 @@ const CartPage: React.FC = () => {
                       mt: 4,
                     }}
                   >
-                    Place Order
+                    Confirm Order
                   </Button>
                 </Form>
               )}

@@ -31,10 +31,11 @@ const OrderModal: React.FC<OrderModalProps> = ({ open, onClose, order }) => {
           boxShadow: 24,
           p: 4,
         }}
-        className="shadow-lg bg-white border border-gray-200"
+        className="shadow-lg bg-white border border-gray-200 "
       >
+        <div className="  max-h-[550px] overflow-y-auto p-2">
         <div className="flex justify-between items-center border-b pb-2 mb-4">
-          <Typography variant="h5" className="font-bold text-[#3A7D44]">
+          <Typography variant="h5" className="font-extrabold text-[#3A7D44]">
             Order Details
           </Typography>
           <button
@@ -46,9 +47,9 @@ const OrderModal: React.FC<OrderModalProps> = ({ open, onClose, order }) => {
         </div>
 
         <div className="space-y-2">
-          <Typography variant="h6" className="font-semibold">
+          <Typography variant="h6"sx={{color:'#1F2937', fontWeight:900}}>
             Name:{" "}
-            <span className="font-normal text-gray-800">{order?.name}</span>
+            <span className="font-semibold text-gray-800">{order?.name}</span>
           </Typography>
           <Typography className="text-gray-800">
             Address:{" "}
@@ -59,23 +60,22 @@ const OrderModal: React.FC<OrderModalProps> = ({ open, onClose, order }) => {
             <span className="font-medium">{order?.phone}</span>
           </Typography>
           {order?.items.map((item, index) => (
-            <div key={index} className="space-y-2">
-              <Typography className="text-gray-800">
-                Book Name:<span className="font-medium">{item.name}</span>
+            <div key={index} className="space-y-2 border border-gray-600 p-1 ">
+              <Typography  sx={{color:'#1F2937', fontWeight:900}}>
+                Book Name:<span className="font-semibold">{item.name}</span>
               </Typography>
-              <Typography className="text-gray-800">
-                Stock: <span className="font-medium">{item.quantity}</span>
+              <Typography sx={{color:'#1F2937', fontWeight:900}}>
+                Quantity: <span className="font-semibold">{item.quantity}</span>
               </Typography>
             </div>
           ))}
           {totalPrice !== undefined && (
             <div className="flex justify-between mt-4 font-semibold">
-              <Typography>Total Price:</Typography>
-              <Typography>₹{totalPrice}</Typography>
+              <Typography sx={{color:'#1F2937', fontWeight:900}}>Total Price:</Typography>
+              <Typography sx={{color:'#1F2937', fontWeight:900}}>₹{totalPrice}</Typography>
             </div>
           )}
-        </div>
-
+        </div> 
         <div className="flex justify-end mt-6">
           <Button
             variant="outlined"
@@ -92,6 +92,7 @@ const OrderModal: React.FC<OrderModalProps> = ({ open, onClose, order }) => {
           >
             Close
           </Button>
+        </div>
         </div>
       </Box>
     </Modal>
