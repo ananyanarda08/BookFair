@@ -44,7 +44,6 @@ interface BooksSectionProps {
 const BooksSection: React.FC<BooksSectionProps> = ({
   books,
   setBooks,
-  // fetchBooks,
   handleViewOpen,
   handleEditOpen,
   handleDelete,
@@ -88,7 +87,7 @@ const BooksSection: React.FC<BooksSectionProps> = ({
   };
 
   return (
-    <div className="p-6 bg-[#F8F5E9] rounded-lg shadow-lg md:col-span-2 flex flex-col max-h-[790px] overflow-y-auto">
+    <div className="p-6 bg-[#F8F5E9] rounded-lg shadow-lg md:col-span-2 flex flex-col max-h-[750px] overflow-y-auto">
       <h3 className="text-4xl font-semibold mb-4 text-[#1c4e23]">Book Management</h3>
 
       <div className="mb-4 flex flex-col sm:flex-row justify-between gap-10">

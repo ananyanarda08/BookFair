@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
+import { Avatar } from "@mui/material";
 
 const Header: React.FC = () => {
   const location = useLocation();
@@ -10,22 +11,19 @@ const Header: React.FC = () => {
   const { cart } = useCart();
 
   const user = JSON.parse(localStorage.getItem("user") || "{}");
-  console.log(user, 'user')
-  const isLoggedIn = user && user.name; 
-  const isBuyer = user.type === "buyer"; 
+  const isLoggedIn = user && user.name;
+  const isBuyer = user.type === "buyer";
   const handleLogout = () => {
-    localStorage.removeItem("user"); 
-    localStorage.removeItem("shopName"); 
-    navigate("/"); 
+    localStorage.removeItem("user");
+    localStorage.removeItem("shopName");
+    navigate("/");
   };
 
   const showAuthButtons =
     location.pathname === "/" ||
     location.pathname === "/signup" ||
     location.pathname === "/login";
-    console.log(isBuyer)
 
-    console.log(cart.length, 'pk')
   return (
     <header className="fixed top-0 left-0 w-full flex justify-between items-center p-6 z-10 shadow-md bg-[#3A7D44]">
       {/* Logo */}
@@ -37,17 +35,33 @@ const Header: React.FC = () => {
       </Link>
 
       <div className="flex items-center space-x-4">
-      
         {isBuyer && (
-          <Link to="/cart-item" className="flex items-center space-x-2 relative">
-            <ShoppingCartIcon className="text-[#F8F5E9]" sx={{ fontSize: 32 }} />
-            {cart.length > 0 && (
-              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold px-2 rounded-full">
-                {cart.length}
-              </span>
-            )}
-          </Link>
-         )} 
+          <>
+            <Link
+              to="/buyer-profile"
+              className="flex items-center space-x-2 relative"
+            >
+              <Avatar
+                sx={{ bgcolor: "#F8F5E9", color: "black", marginRight: 1 }}
+              ></Avatar>
+            </Link>
+
+            <Link
+              to="/cart-item"
+              className="flex items-center space-x-2 relative "
+            >
+              <ShoppingCartIcon
+                className="text-[#F8F5E9]"
+                sx={{ fontSize: 32 }}
+              />
+              {cart.length > 0 && (
+                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold px-2 rounded-full">
+                  {cart.length}
+                </span>
+              )}
+            </Link>
+          </>
+        )}
 
         {isLoggedIn ? (
           <button

@@ -9,6 +9,7 @@ import BookForm from "./pages/seller/BookForm";
 import { CartProvider } from "./context/CartContext";
 import CartPage from "./pages/buyer/AddToCart";
 import ProtectedRoute from "./components/ProtectedRoute";
+import BuyerProfile from "./pages/buyer/BuyerProfile";
 
 function AnimatedRoutes() {
   const location = useLocation();
@@ -60,6 +61,14 @@ function AnimatedRoutes() {
           element={
             <PageWrapper>
               <CartPage />
+            </PageWrapper>
+          }
+        />
+           <Route
+          path="/buyer-profile"
+          element={
+            <PageWrapper>
+              <BuyerProfile />
             </PageWrapper>
           }
         />

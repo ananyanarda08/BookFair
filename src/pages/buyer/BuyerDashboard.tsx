@@ -83,14 +83,14 @@ const BuyerDashboard: React.FC = () => {
 
     if (existingBook) {
       toast.info("This book is already in your cart!", {
-        position: "top-right",
+        position: "bottom-right",
         autoClose: 2000,
       });
     } else {
       const bookWithQuantity = { ...book, quantity: book.quantity || 1 };
       addToCart(bookWithQuantity);
       toast.success("Book added to your cart!", {
-        position: "top-right",
+        position: "bottom-right",
         autoClose: 2000,
       });
     }

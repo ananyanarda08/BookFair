@@ -90,7 +90,7 @@ const SellerDashboard: React.FC = () => {
             </div>
             <OrderSection orders={orders} />
           </div>
-        </div>
+        </div>  
 
         <Modal open={open} onClose={() => setOpen(false)}>
           <Box

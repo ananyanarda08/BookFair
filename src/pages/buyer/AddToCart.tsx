@@ -59,11 +59,12 @@ const CartPage: React.FC = () => {
           quantity: orderInfo.quantity,
         },
       ],
+      createdAt: new Date(), 
     };
-
+  
     try {
       const response = await axiosInstance.post("/orders", orderWithBuyerDetails);
-
+  
       if (response.status === 201) {
         removeFromCart(orderInfo.id);
         setOpenOrderModal(false);
