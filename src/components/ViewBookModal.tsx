@@ -37,7 +37,7 @@ const BookModal: React.FC<BookModalProps> = ({ open, onClose, book }) => {
         className="shadow-lg bg-white border border-gray-200"
       >
         <div className="flex justify-between items-center border-b pb-2 mb-4">
-          <Typography variant="h5" className="font-bold text-[#133618]">
+          <Typography variant="h5" className="font-bold  text-[#133618]">
             View Book
           </Typography>
           <button
@@ -57,15 +57,15 @@ const BookModal: React.FC<BookModalProps> = ({ open, onClose, book }) => {
               Name:{" "}
               <span className="font-medium text-gray-700">{book.name}</span>
             </Typography>
-            <Typography className="text-gray-600">
+            <Typography   variant="h6"className="text-gray-600 ">
               Author:{" "}
               <span className="font-medium">{book.author}</span>
             </Typography>
-            <Typography className="text-gray-600">
+            <Typography   variant="h6" className="text-gray-600">
               Price:{" "}
               <span className="font-medium">₹{book.price}</span>
             </Typography>
-            <Typography className="text-gray-600">
+            <Typography   variant="h6" className="text-gray-600">
               Stock:{" "}
               <span className="font-medium">{book.stock}</span>
             </Typography>

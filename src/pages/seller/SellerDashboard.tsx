@@ -7,7 +7,7 @@ import SellerProfile from "./SellerProfile";
 import { axiosInstance } from "../../api/AxiosInstance";
 import OrderSection from "./OrderList";
 import BooksSection from "./BookSection";
-import BookModal from "../../components/BookModal";
+import BookModal from "../../components/ViewBookModal";
 
 const SellerDashboard: React.FC = () => {
   const [books, setBooks] = useState<any[]>([]);

@@ -133,6 +133,7 @@ const handleSubmitOrder = async (values: any) => {
                     <Button
                       startIcon={<Delete />}
                       onClick={() => removeFromCart(book.id)}
+                      sx={{ color: "red" }}
                     >
                       Remove
                     </Button>

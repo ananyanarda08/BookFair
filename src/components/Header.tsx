@@ -40,7 +40,7 @@ const Header: React.FC = () => {
       
         {isBuyer && (
           <Link to="/cart-item" className="flex items-center space-x-2 relative">
-            <ShoppingCartIcon className="text-orange-400" sx={{ fontSize: 32 }} />
+            <ShoppingCartIcon className="text-[#F8F5E9]" sx={{ fontSize: 32 }} />
             {cart.length > 0 && (
               <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold px-2 rounded-full">
                 {cart.length}

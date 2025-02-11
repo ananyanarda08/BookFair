@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import { axiosInstance } from "../../api/AxiosInstance";
-import BookModal from "../../components/BookModal"; 
+import BookModal from "../../components/ViewBookModal"; 
 
 interface Book {
   sellerId: string;
@@ -83,8 +83,8 @@ const BuyerDashboard: React.FC = () => {
 
   return (
     <Layout>
-      <div className="bg-[#F8F5E9] mt">
-        <div className="p-4 md:p-10  bg-[#F8F5E9] min-h-screen text-[#1c4e23]">
+      <div className="bg-[#f1f1ee] mt">
+        <div className="p-4 md:p-10   min-h-screen text-[#1c4e23]">
           <h2 className="text-2xl md:text-5xl font-bold mt-20 mb-6 text-[#3A7D44]">
             Available Books
           </h2>
@@ -143,7 +143,7 @@ const BuyerDashboard: React.FC = () => {
               {filteredBooks.map((book) => (
                 <div
                   key={book.id}
-                  className="bg-[#9DC08B] border border-[#3A7D44] p-4 rounded-lg shadow-lg hover:shadow-xl transition duration-300"
+                  className="bg-[#effde8] border border-[#3A7D44] p-4 rounded-lg shadow-lg hover:shadow-xl transition duration-300"
                 >
                   <img
                     src={book.image}

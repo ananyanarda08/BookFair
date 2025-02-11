@@ -40,7 +40,7 @@ const BookForm: React.FC<BookFormProps> = ({
       .required("Stock is required")
       .integer("Must be an integer"),
   });
-
+  
   const handleSubmit = async (values: any, { resetForm }: any) => {
     const updatedBook = {
       ...values,
